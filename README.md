@@ -1,0 +1,1 @@
+-noforcemparms -noforcemaccel -noforcemspd -stretchaspect -freq 144
