@@ -1,1 +1,1 @@
--noforcemparms -noforcemaccel -noforcemspd -stretchaspect -freq 144
+-noforcemaccel -noforcemspd -freq 144
