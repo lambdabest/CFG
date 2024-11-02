@@ -1,1 +1,1 @@
--noforcemaccel -noforcemspd -freq 144
+-freq 144
