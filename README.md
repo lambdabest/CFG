@@ -1,1 +1,1 @@
--freq 144
+-nofbo -noforcemparms -noforcemaccel -noforcemspd -nomousegrab -w 640 +ex_interp 0.008 +gl_ansio 0 +r_decals 0 -freq 144 -stretchaspect
