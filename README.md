@@ -1,7 +1,5 @@
 # 🖱️Setup
 
-Technical enthusiast focused on ultra-low friction, 1:1 motion tracking, and hardware optimization.
-
 ### ⚙️ Mouse Settings & Precision
 * **DPI:** 1600
 * **Polling Rate:** 1000 Hz
