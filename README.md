@@ -11,7 +11,7 @@
 ### 🏎️ Hardware Evolution
 * **Main Mouse:** **ATK Z1 V2 Ultimate** (2026 - Present)
 * **Mousepad:** **ATK 99G Carbon**
-* **Keyboard:** **Fantech Atom HE68 Mk811**
+* **Keyboard:** **Fantech Atom HE68 MK811**
 * **Legacy:** Razer DeathAdder V3 Pro (2024 - 2026)
 
 ---
