@@ -2,7 +2,7 @@
 
 ### ⚙️ Mouse Settings & Precision
 * **DPI:** 1600
-* **Polling Rate:** 1000 Hz
+* **Polling Rate:** 4000 Hz
 * **In-game Sensitivity:** 0.4625
 * **Mouse Fix:** MarkC Windows Mouse Fix (1:1 Tracking)
 
