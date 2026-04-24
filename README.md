@@ -6,7 +6,7 @@
 * **In-game Sensitivity:** 0.4625
 * **Mouse Fix:** MarkC Windows Mouse Fix (1:1 Tracking)
 
--noforcemparms -noforcemspd -freq 144 -console
+-nomsaa -noaafonts -noforcemparms -noforcemspd -freq 144 +fps_max 144 -mousethread -console -high +exec 1.cfg
 
 ---
 
