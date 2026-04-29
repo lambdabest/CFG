@@ -1,9 +1,9 @@
 # 🖱️Setup
 
 ### ⚙️ Mouse Settings & Precision
-* **DPI:** 1600
-* **Polling Rate:** 4000 Hz
-* **In-game Sensitivity:** 0.4625
+* **DPI:** 1640
+* **Polling Rate:** 1000 Hz
+* **In-game Sensitivity:** 0.346875
 * **Mouse Fix:** MarkC Windows Mouse Fix (1:1 Tracking)
 
 -nomsaa -noaafonts -noforcemparms -noforcemspd -freq 144 +fps_max 144 -mousethread -console -high +exec 1.cfg
@@ -14,7 +14,8 @@
 * **Main Mouse:** **ATK Z1 V2 Ultimate** (2026 - Present)
 * **Mousepad:** **ATK 99G Carbon**
 * **Keyboard:** **Fantech Atom HE68 MK811**
-* **Legacy:** Razer DeathAdder V3 Pro (2024 - 2026)
+* **Legacy Mouse:** Razer DeathAdder V3 Pro (2024 - 2026)
+* **Legacy Mousepad:** Razer Gigantus V2 XXL (2024 - 2026)
 
 ---
 
