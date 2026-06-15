@@ -9,13 +9,24 @@
 -mousethread -freq 240 -console -nojoy -noforcemaccel -noforcemparms -noforcemspd +exec 1.cfg
 
 ---
+## 🏎️ Hardware Evolution
 
-### 🏎️ Hardware Evolution
-* **Main Mouse:** **ATK Z1 V2 Ultimate** (2026 - Present)
-* **Mousepad:** **ATK 99G Carbon**
-* **Keyboard:** **Fantech Atom HE68 MK811**
-* **Legacy Mouse:** Razer DeathAdder V3 Pro (2024 - 2026)
-* **Legacy Mousepad:** Razer Gigantus V2 XXL (2024 - 2026)
+### 🕹️ Current Setup
+
+| Component | Device | Period |
+| :--- | :--- | :--- |
+| 🖱️ **Main Mouse** | **ATK Z1 V2 Ultimate** | `2026 - Present` |
+| 🟩 **Mousepad** | **ATK 99G Carbon** | `2026 - Present` |
+| ⌨️ **Keyboard** | **Fantech Atom HE68 MK811** | `2026 - Present` |
+| 🎧 **Headset** | **Razer BlackShark V3 Pro** | `2026 - Present` |
+
+---
+
+### ⏳ Legacy Gear
+
+* 🖱️ **Mouse:** Razer DeathAdder V3 Pro `(2024 - 2026)`
+* 🟩 **Mousepad:** Razer Gigantus V2 XXL `(2024 - 2026)`
+* 🎧 **Headset:** Redragon Lamia 2 `(Pre-2024)`
 
 ---
 
