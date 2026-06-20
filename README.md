@@ -1,12 +1,12 @@
 # 🖱️Setup
 
 ### ⚙️ Mouse Settings & Precision
-* **DPI:** 1640
-* **Polling Rate:** 2000 Hz
+* **DPI:** 1600
+* **Polling Rate:** 1000 Hz
 * **In-game Sensitivity:** 0.346875
 * **Mouse Fix:** MarkC Windows Mouse Fix (1:1 Tracking)
 
--mousethread -freq 240 -console -nojoy -noforcemaccel -noforcemparms -noforcemspd +exec 1.cfg
+-gl -freq 240 -refresh 240 -noforcemaccel -noforcemparms -noforcemspd -mousethread -console -nojoy +exec 1.cfg
 
 ---
 
