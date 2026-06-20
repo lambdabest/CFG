@@ -19,6 +19,7 @@
 | 🖱️ **Main Mouse** | **ATK Z1 V2 Ultimate** | `2026 - Present` |
 | 🟩 **Mousepad** | **ATK 99G Carbon** | `2026 - Present` |
 | ⌨️ **Keyboard** | **Fantech Atom HE68 MK811** | `2026 - Present` |
+| 🖥️ **Monitor** | **MSI 245F G24 240Hz** | `2026 - Present` |
 | 🎧 **Headset** | **Razer BlackShark V3 Pro** | `Mayo 2026 - Present` |
 
 ---
