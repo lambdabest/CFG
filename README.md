@@ -1,12 +1,15 @@
-# 🖱️Setup
+# 🖱️ Setup
 
-### ⚙️ Mouse Settings & Precision
+## ⚙️ Mouse Settings & Precision
+
 * **DPI:** 1600
 * **Polling Rate:** 1000 Hz
 * **In-game Sensitivity:** 0.346875
-* **Mouse Fix:** MarkC Windows Mouse Fix (1:1 Tracking)
+* **Mouse Fix:** MarkC Windows Mouse Fix — 1:1 Tracking
 
--freq 240 -noforcemaccel -noforcemparms -noforcemspd -console -nojoy -stretchaspect
+### 🚀 Launch Options
+
+`-freq 240 -noforcemaccel -noforcemparms -noforcemspd -console -nojoy -stretchaspect`
 
 ---
 
@@ -16,10 +19,11 @@
 
 | Component | Device | Period |
 | :--- | :--- | :--- |
+| 🖥️ **Monitor** | **MSI MAG 245F X24 — 240 Hz** | `2026 - Present` |
 | 🖱️ **Main Mouse** | **ATK Z1 V2 Ultimate** | `2026 - Present` |
 | 🟩 **Mousepad** | **ATK 99G Carbon** | `2026 - Present` |
 | ⌨️ **Keyboard** | **Fantech Atom HE68 MK811** | `2026 - Present` |
-| 🎧 **Headset** | **Razer BlackShark V3 Pro** | `Mayo 2026 - Present` |
+| 🎧 **Headset** | **Razer BlackShark V3 Pro** | `May 2026 - Present` |
 
 ---
 
@@ -31,4 +35,9 @@
 
 ---
 
-<img width="401" height="456" alt="image" src="https://github.com/user-attachments/assets/da37f7ce-f57e-46e3-b292-015f6d852f29" />
+<img
+  width="401"
+  height="456"
+  alt="Gaming setup"
+  src="https://github.com/user-attachments/assets/da37f7ce-f57e-46e3-b292-015f6d852f29"
+/>
