@@ -1,13 +1,26 @@
 @echo off
 setlocal
-title hl.exe Priority Check
+title hl.exe High Priority Check
+
+echo ============================================================
+echo  HL.EXE HIGH PRIORITY CHECK
+echo ============================================================
+echo.
+echo Registry policy:
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\hl.exe\PerfOptions" /v CpuPriorityClass 2>nul
+if errorlevel 1 (
+    echo CpuPriorityClass is not configured.
+) else (
+    echo Expected value for HIGH: 0x3
+)
 
 echo.
-powershell -NoProfile -Command "$p=Get-Process hl -ErrorAction SilentlyContinue; if(-not $p){Write-Host 'hl.exe is not running.'; exit 1}; $p | Select-Object Id,ProcessName,PriorityClass,CPU | Format-Table -AutoSize"
+echo Running process:
+powershell -NoProfile -Command "$p=Get-Process hl -ErrorAction SilentlyContinue; if(-not $p){Write-Host 'hl.exe is not running.'; exit}; $p | Select-Object Id,ProcessName,PriorityClass,CPU | Format-Table -AutoSize"
 
 echo.
-echo Expected after HL_High_Priority.reg: High
-echo Expected after HL_Above_Normal_Priority.reg: AboveNormal
+echo Expected while CS 1.6 is running:
+echo   PriorityClass = High
 echo.
 pause
 endlocal
