@@ -1,7 +1,5 @@
 Windows Registry Editor Version 5.00
 
-; Official Windows 10/8.x default curves from the MarkC package.
-
 [HKEY_CURRENT_USER\Control Panel\Mouse]
 "SmoothMouseXCurve"=hex:\
 	00,00,00,00,00,00,00,00,\

@@ -1,6 +1,5 @@
 Windows Registry Editor Version 5.00
-; Official MarkC Windows 10/8.x profile:
-; ItemsSize=100%, Scale=1-to-1, pointer slider @6-of-11.
+; Windows_10+8.x_MouseFix_ItemsSize=100%_Scale=1-to-1_@6-of-11
 
 [HKEY_CURRENT_USER\Control Panel\Mouse]
 

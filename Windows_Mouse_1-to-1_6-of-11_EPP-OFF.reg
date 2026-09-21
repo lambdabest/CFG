@@ -1,0 +1,18 @@
+Windows Registry Editor Version 5.00
+
+; Recommended Windows fallback profile for exact native pointer scaling.
+; Pointer speed: 6/11
+; Enhance pointer precision: OFF
+; At 100% display scaling this avoids fractional Windows pointer scaling.
+; CS 1.6 with m_rawinput 1 does not depend on these pointer settings.
+
+[HKEY_CURRENT_USER\Control Panel\Mouse]
+"MouseSensitivity"="10"
+"MouseSpeed"="0"
+"MouseThreshold1"="0"
+"MouseThreshold2"="0"
+
+[HKEY_USERS\.DEFAULT\Control Panel\Mouse]
+"MouseSpeed"="0"
+"MouseThreshold1"="0"
+"MouseThreshold2"="0"
