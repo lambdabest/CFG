@@ -6,8 +6,7 @@
 * **Polling Rate:** 1000 Hz
 * **In-game Sensitivity:** 0.346875
 * **Raw Input:** Enabled
-* **Windows fallback:** 6/11 + Enhance Pointer Precision OFF
-* **MarkC:** custom 3/11 profile preserved for legacy/testing
+* **Windows:** 6/11 + Enhance Pointer Precision OFF
 
 ### 🚀 Launch Options
 
@@ -37,19 +36,15 @@
 
 ---
 
-## 📁 Quick Files
+## 📁 Repository
 
-* `CFG/` — client CFG for 240 Hz LAN play
-* `Windows_Mouse_1-to-1_6-of-11_EPP-OFF.reg` — recommended Windows fallback
-* `Windows_10+8.x_MouseFix...@3-of-11.reg` — custom MarkC profile
-* `Windows_10+8.x_MouseFix...@6-of-11.reg` — official MarkC 100% / 6-of-11
-* `Windows_10+8.x_Default.reg` — official MarkC Windows-curve restore
-* `HL_High_Priority.reg` — starts `hl.exe` in High CPU priority
-* `HL_Above_Normal_Priority.reg` — less aggressive alternative
-* `HL_Restore_Default_Priority.reg` — removes forced priority
-* `Check_HL_Priority.bat` — shows the live priority of `hl.exe`
-* `Custom Resolution Utility (CRU)/` — CRU files
-* `Network TWEAKS/` — network maintenance/diagnostic scripts
+* `CFG/` — Counter-Strike 1.6 client configuration
+* `Mousefix/` — Windows mouse / MarkC profiles
+* `Game Performance/` — hl.exe performance priority
+* `Tools/Latency/` — polling, Raw Input and system latency tools
+* `Tools/Network/` — network maintenance tools
+* `Tools/Display/CRU/` — Custom Resolution Utility
+* `Tools/Misc/` — CS 1.6 maintenance utilities
 
 ---
 

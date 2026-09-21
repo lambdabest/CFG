@@ -1,8 +1,0 @@
-Windows Registry Editor Version 5.00
-
-; Removes only the forced CPU priority created by the HL priority REG files.
-; Other hl.exe IFEO/PerfOptions values, if any, are left untouched.
-; Close CS before importing, then launch it again.
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\hl.exe\PerfOptions]
-"CpuPriorityClass"=-
