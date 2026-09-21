@@ -1,18 +1,16 @@
 Windows Registry Editor Version 5.00
-; MarkC custom profile kept for this setup:
-; Windows 10/8.x, 100% scaling, Scale=1-to-1, pointer slider @3-of-11.
-; CS 1.6 with m_rawinput 1 uses the raw-input path, so this curve is mainly
-; retained here for centralization/legacy mouse paths.
+; Official MarkC Windows 10/8.x profile:
+; ItemsSize=100%, Scale=1-to-1, pointer slider @6-of-11.
 
 [HKEY_CURRENT_USER\Control Panel\Mouse]
 
-"MouseSensitivity"="4"
+"MouseSensitivity"="10"
 "SmoothMouseXCurve"=hex:\
 	00,00,00,00,00,00,00,00,\
-	AE,1E,05,00,00,00,00,00,\
-	5C,3D,0A,00,00,00,00,00,\
-	0A,5C,0F,00,00,00,00,00,\
-	B8,7A,14,00,00,00,00,00
+	C0,CC,0C,00,00,00,00,00,\
+	80,99,19,00,00,00,00,00,\
+	40,66,26,00,00,00,00,00,\
+	00,33,33,00,00,00,00,00
 "SmoothMouseYCurve"=hex:\
 	00,00,00,00,00,00,00,00,\
 	00,00,38,00,00,00,00,00,\

@@ -5,7 +5,8 @@
 * **DPI:** 1600
 * **Polling Rate:** 1000 Hz
 * **In-game Sensitivity:** 0.346875
-* **Mouse Fix:** MarkC Windows Mouse Fix — 1:1 Tracking
+* **Mouse Fix:** MarkC Windows Mouse Fix — custom 3/11 profile
+* **Raw Input:** Enabled
 
 ### 🚀 Launch Options
 
@@ -35,16 +36,18 @@
 
 ---
 
-## 📁 Repository
+## 📁 Quick Files
 
-This repository centralizes my **Counter-Strike 1.6 CFG and utilities** so I do not have to search for them again.
-
-* `CFG/` — competitive client configuration
-* `Custom Resolution Utility (CRU)/` — custom resolution/refresh utility
-* `Network TWEAKS/` — saved network utilities
-* `Windows_10+8.x_MouseFix_ItemsSize=100%_Scale=1-to-1_@3-of-11.reg` — saved MarkC profile
-* `HL_High_Priority.reg` — starts `hl.exe` with High CPU priority
-* `HL_Restore_Default_Priority.reg` — removes that forced priority setting
+* `CFG/` — client CFG for 240 Hz LAN play
+* `HL_High_Priority.reg` — starts `hl.exe` in High CPU priority
+* `HL_Above_Normal_Priority.reg` — less aggressive alternative
+* `HL_Restore_Default_Priority.reg` — removes forced priority
+* `Check_HL_Priority.bat` — shows the live priority of `hl.exe`
+* `Windows_10+8.x_MouseFix...@3-of-11.reg` — my custom MarkC profile
+* `Windows_10+8.x_MouseFix...@6-of-11.reg` — official MarkC 100% / 6-of-11 profile
+* `Windows_10+8.x_Default.reg` — restores the official Windows mouse curves
+* `Custom Resolution Utility (CRU)/` — CRU files
+* `Network TWEAKS/` — network maintenance/diagnostic scripts
 
 ---
 

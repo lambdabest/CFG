@@ -1,12 +1,11 @@
 Windows Registry Editor Version 5.00
 
 ; Counter-Strike 1.6 / Half-Life (hl.exe)
-; Forces hl.exe to start with HIGH CPU priority.
-; CpuPriorityClass 3 = High.
+; Less aggressive alternative to High priority.
+; CpuPriorityClass 6 = Above Normal.
 ; Close CS before importing, then launch it again.
-; High priority is intentionally used instead of Realtime.
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\hl.exe]
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\hl.exe\PerfOptions]
-"CpuPriorityClass"=dword:00000003
+"CpuPriorityClass"=dword:00000006
