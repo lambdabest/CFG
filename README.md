@@ -45,12 +45,3 @@
 * `Tools/Network/` — network maintenance tools
 * `Tools/Display/CRU/` — Custom Resolution Utility
 * `Tools/Misc/` — CS 1.6 maintenance utilities
-
----
-
-<img
-  width="401"
-  height="456"
-  alt="Gaming setup"
-  src="https://github.com/user-attachments/assets/da37f7ce-f57e-46e3-b292-015f6d852f29"
-/>
