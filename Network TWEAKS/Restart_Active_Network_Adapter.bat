@@ -4,9 +4,9 @@ title Restart Active Network Adapter - CS 1.6 Tools
 
 set "SELF=%~f0"
 
-:: ------------------------------------------------------------
+:: ============================================================
 :: Administrator check
-:: ------------------------------------------------------------
+:: ============================================================
 fltmc >nul 2>&1
 if errorlevel 1 (
     echo Requesting Administrator privileges...
@@ -14,136 +14,113 @@ if errorlevel 1 (
     exit /b
 )
 
-:: ------------------------------------------------------------
-:: Detect the active interface by IPv4 default gateway.
-:: Get-NetIPConfiguration returns connected non-virtual interfaces by default.
-:: We only capture InterfaceIndex here to avoid blank/whitespace adapter names.
-:: ------------------------------------------------------------
-set "IFINDEX="
-
-for /f "delims=" %%I in ('powershell -NoProfile -Command "$c=Get-NetIPConfiguration ^| Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -eq 'Up' } ^| Sort-Object { $_.NetIPv4Interface.InterfaceMetric } ^| Select-Object -First 1; if($c){[Console]::Write($c.InterfaceIndex)}"') do (
-    if not defined IFINDEX set "IFINDEX=%%I"
-)
-
-:: Fallback for an isolated LAN with no default gateway:
-:: pick the first UP physical adapter.
-if not defined IFINDEX (
-    for /f "delims=" %%I in ('powershell -NoProfile -Command "$a=Get-NetAdapter -Physical -ErrorAction SilentlyContinue ^| Where-Object { $_.Status -eq 'Up' } ^| Sort-Object InterfaceIndex ^| Select-Object -First 1; if($a){[Console]::Write($a.InterfaceIndex)}"') do (
-        if not defined IFINDEX set "IFINDEX=%%I"
-    )
-)
-
-:: Validate InterfaceIndex as numeric.
-if defined IFINDEX (
-    echo(%IFINDEX%| findstr /r /x "[0-9][0-9]*" >nul
-    if errorlevel 1 set "IFINDEX="
-)
-
-:: ------------------------------------------------------------
-:: Resolve the exact adapter name from the validated index.
-:: ------------------------------------------------------------
-set "ADAPTER="
-
-if defined IFINDEX (
-    for /f "delims=" %%A in ('powershell -NoProfile -Command "$a=Get-NetAdapter -InterfaceIndex %IFINDEX% -ErrorAction SilentlyContinue; if($a){[Console]::Write($a.Name)}"') do (
-        if not defined ADAPTER set "ADAPTER=%%A"
-    )
-)
-
-:: ------------------------------------------------------------
-:: Manual fallback if automatic detection fails.
-:: ------------------------------------------------------------
-if not defined ADAPTER (
-    cls
-    echo ============================================================
-    echo  ACTIVE NETWORK ADAPTERS
-    echo ============================================================
-    echo.
-    netsh interface show interface
-    echo.
-    set /p "ADAPTER=Type the exact interface name to restart: "
-)
-
-if not defined ADAPTER goto :FAIL_DETECT
-
-:: Verify that the interface really exists before touching it.
-netsh interface show interface name="%ADAPTER%" >nul 2>&1
-if errorlevel 1 goto :FAIL_DETECT
-
 cls
 echo ============================================================
 echo  RESTART ACTIVE NETWORK ADAPTER
 echo ============================================================
 echo.
-echo Interface index : %IFINDEX%
-echo Adapter selected:
-echo   "%ADAPTER%"
+echo Detection order:
+echo   1. Win32_NetworkAdapter + IP configuration
+echo   2. Connected/enabled Win32_NetworkAdapter
+echo   3. Plug-and-Play NET devices
 echo.
-netsh interface show interface name="%ADAPTER%"
+echo Restart method:
+echo   PnPUtil /restart-device
+echo   WMI Disable/Enable only as fallback
 echo.
-echo This will disconnect networking for a few seconds.
-choice /c YN /n /m "Restart this adapter? [Y/N]: "
-if errorlevel 2 goto :END
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"$ErrorActionPreference='Stop';" ^
+"function Header($s){Write-Host ''; Write-Host ('='*60); Write-Host (' '+$s); Write-Host ('='*60)};" ^
+"$selected=$null; $instanceId=$null; $displayName=$null; $wmiDeviceId=$null;" ^
+"try {" ^
+"  $adapters=@(Get-CimInstance -Namespace root/CIMV2 -ClassName Win32_NetworkAdapter -ErrorAction Stop | Where-Object { $_.PNPDeviceID });" ^
+"  $configs=@(Get-CimInstance -Namespace root/CIMV2 -ClassName Win32_NetworkAdapterConfiguration -ErrorAction Stop | Where-Object { $_.IPEnabled -eq $true });" ^
+"  foreach($cfg in $configs){" ^
+"    $a=$adapters | Where-Object { $_.Index -eq $cfg.Index } | Select-Object -First 1;" ^
+"    if($a -and $cfg.DefaultIPGateway -and $a.NetEnabled -eq $true){$selected=$a; break}" ^
+"  };" ^
+"  if(-not $selected){" ^
+"    $selected=$adapters | Where-Object { $_.NetEnabled -eq $true -and $_.NetConnectionStatus -eq 2 } | Sort-Object @{Expression='PhysicalAdapter';Descending=$true},Index | Select-Object -First 1" ^
+"  };" ^
+"  if(-not $selected){" ^
+"    $selected=$adapters | Where-Object { $_.NetEnabled -eq $true } | Sort-Object @{Expression='PhysicalAdapter';Descending=$true},Index | Select-Object -First 1" ^
+"  };" ^
+"} catch { Write-Host ('Win32_NetworkAdapter detection failed: '+$_.Exception.Message) -ForegroundColor Yellow };" ^
+"if($selected){" ^
+"  $instanceId=$selected.PNPDeviceID; $displayName=if($selected.NetConnectionID){$selected.NetConnectionID}else{$selected.Name}; $wmiDeviceId=$selected.DeviceID;" ^
+"  Header 'DETECTED ADAPTER';" ^
+"  $selected | Select-Object DeviceID,Index,NetConnectionID,Name,PhysicalAdapter,NetEnabled,NetConnectionStatus,PNPDeviceID | Format-List" ^
+"} else {" ^
+"  Header 'WMI DID NOT IDENTIFY AN ACTIVE ADAPTER';" ^
+"  Write-Host 'Trying Plug-and-Play enumeration...' -ForegroundColor Yellow;" ^
+"  try {" ^
+"    $pnp=@(Get-PnpDevice -Class Net -PresentOnly -ErrorAction Stop | Where-Object { $_.Status -eq 'OK' -and $_.InstanceId -match '^(PCI|USB)\\' });" ^
+"  } catch { $pnp=@() };" ^
+"  if($pnp.Count -eq 0){" ^
+"    Write-Host '';" ^
+"    Write-Host 'No usable NET devices were returned by WMI or PnP.' -ForegroundColor Red;" ^
+"    Write-Host '';" ^
+"    Write-Host 'Relevant Windows services:';" ^
+"    Get-Service Winmgmt,Nsi,Netman,NetProfm -ErrorAction SilentlyContinue | Select-Object Name,Status,StartType | Format-Table -AutoSize;" ^
+"    Write-Host 'The script did not modify any device.';" ^
+"    exit 20" ^
+"  };" ^
+"  for($i=0;$i -lt $pnp.Count;$i++){Write-Host ('[{0}] {1}' -f ($i+1),$pnp[$i].FriendlyName); Write-Host ('    '+$pnp[$i].InstanceId)};" ^
+"  Write-Host '';" ^
+"  $choice=Read-Host 'Select the network adapter number';" ^
+"  $n=0; if(-not [int]::TryParse($choice,[ref]$n) -or $n -lt 1 -or $n -gt $pnp.Count){Write-Host 'Invalid selection.' -ForegroundColor Red; exit 21};" ^
+"  $dev=$pnp[$n-1]; $instanceId=$dev.InstanceId; $displayName=$dev.FriendlyName;" ^
+"};" ^
+"if([string]::IsNullOrWhiteSpace($instanceId)){Write-Host 'ERROR: Empty PnP Instance ID.' -ForegroundColor Red; exit 22};" ^
+"Header 'CONFIRM';" ^
+"Write-Host ('Adapter : '+$displayName);" ^
+"Write-Host ('PnP ID  : '+$instanceId);" ^
+"Write-Host '';" ^
+"$confirm=Read-Host 'Restart this device? Type Y to continue';" ^
+"if($confirm -notmatch '^[Yy]$'){Write-Host 'Cancelled. No adapter was modified.'; exit 0};" ^
+"Header 'RESTARTING';" ^
+"$pnputil=Join-Path $env:SystemRoot 'System32\pnputil.exe';" ^
+"& $pnputil /restart-device $instanceId;" ^
+"$code=$LASTEXITCODE;" ^
+"if($code -eq 0){" ^
+"  Write-Host '';" ^
+"  Write-Host 'PnP restart completed successfully.' -ForegroundColor Green;" ^
+"  Start-Sleep -Seconds 3;" ^
+"  exit 0" ^
+"};" ^
+"Write-Host '';" ^
+"Write-Host ('PnPUtil returned exit code '+$code+'.') -ForegroundColor Yellow;" ^
+"if($selected -and $null -ne $wmiDeviceId){" ^
+"  Write-Host 'Trying Win32_NetworkAdapter Disable/Enable fallback...' -ForegroundColor Yellow;" ^
+"  try {" ^
+"    $a=Get-CimInstance -Namespace root/CIMV2 -ClassName Win32_NetworkAdapter -Filter ('DeviceID='''+$wmiDeviceId+'''');" ^
+"    $r=Invoke-CimMethod -InputObject $a -MethodName Disable -ErrorAction Stop;" ^
+"    if($r.ReturnValue -ne 0){throw ('Disable returned '+$r.ReturnValue)};" ^
+"    Start-Sleep -Seconds 3;" ^
+"    $a=Get-CimInstance -Namespace root/CIMV2 -ClassName Win32_NetworkAdapter -Filter ('DeviceID='''+$wmiDeviceId+'''');" ^
+"    $r=Invoke-CimMethod -InputObject $a -MethodName Enable -ErrorAction Stop;" ^
+"    if($r.ReturnValue -ne 0){throw ('Enable returned '+$r.ReturnValue)};" ^
+"    Write-Host 'WMI fallback completed successfully.' -ForegroundColor Green;" ^
+"    exit 0" ^
+"  } catch {" ^
+"    Write-Host ('WMI fallback also failed: '+$_.Exception.Message) -ForegroundColor Red" ^
+"  }" ^
+"};" ^
+"Write-Host '';" ^
+"Write-Host 'ERROR: Windows could not restart the selected network device.' -ForegroundColor Red;" ^
+"Write-Host 'No additional network tweaks were applied.';" ^
+"exit 30"
+
+set "RC=%ERRORLEVEL%"
 
 echo.
-echo [1/3] Disabling "%ADAPTER%"...
-
-:: Use NETSH intentionally instead of Disable-NetAdapter.
-:: This avoids failures from the NetAdapter CIM provider such as 0x800106d9.
-netsh interface set interface name="%ADAPTER%" admin=DISABLED >nul 2>&1
-if errorlevel 1 goto :FAIL_DISABLE
-
-timeout /t 3 /nobreak >nul
-
-echo [2/3] Enabling "%ADAPTER%"...
-netsh interface set interface name="%ADAPTER%" admin=ENABLED >nul 2>&1
-
-if errorlevel 1 (
-    echo First enable attempt failed. Retrying...
-    timeout /t 2 /nobreak >nul
-    netsh interface set interface name="%ADAPTER%" admin=ENABLED >nul 2>&1
+if "%RC%"=="0" (
+    echo Operation finished.
+) else (
+    echo Diagnostic exit code: %RC%
 )
 
-if errorlevel 1 goto :FAIL_ENABLE
-
-echo [3/3] Waiting for link...
-timeout /t 3 /nobreak >nul
-
-echo.
-echo Current adapter state:
-netsh interface show interface name="%ADAPTER%"
-echo.
-echo Restart completed.
-goto :END
-
-:FAIL_DETECT
-echo.
-echo ERROR: A valid network adapter could not be detected.
-echo.
-echo Available interfaces:
-netsh interface show interface
-echo.
-echo No adapter was modified.
-goto :END
-
-:FAIL_DISABLE
-echo.
-echo ERROR: Windows could not disable "%ADAPTER%".
-echo No further changes were made.
-goto :END
-
-:FAIL_ENABLE
-echo.
-echo WARNING: Windows could not re-enable "%ADAPTER%" automatically.
-echo.
-echo Trying one final recovery command...
-netsh interface set interface name="%ADAPTER%" admin=ENABLED
-echo.
-echo If the interface remains disabled, enable it manually from:
-echo Control Panel ^> Network Connections
-goto :END
-
-:END
 echo.
 pause
 endlocal
