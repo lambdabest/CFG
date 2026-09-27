@@ -45,3 +45,5 @@
 * `Tools/Network/` — network maintenance tools
 * `Tools/Display/CRU/` — Custom Resolution Utility
 * `Tools/Misc/` — CS 1.6 maintenance utilities
+* `SERVER_COMPETITIVO` — TOURNAMENT SERVER
+https://www.mediafire.com/file/hac8pof04291ca3/SERVER_COMPETITIVO.7z/file
